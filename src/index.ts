@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { calcGradientStraightLine } from "./straightLine.js";
+import { calcEquStrLine, calcGradientStraightLine } from "./straightLine.js";
 
 function main() {
     inquirer.prompt([
@@ -9,6 +9,7 @@ function main() {
             message: 'What do you want to revise?',
             choices: [
                 'Calculate gradient of a straight line',
+                'Calculate equation of a straight line',
                 'Distance Formula'
             ]
         }
@@ -18,6 +19,11 @@ function main() {
                 calcGradientStraightLine().then(function() {
                     main();
                 });
+            
+            case 'Calculate equation of a straight line':
+                calcEquStrLine().then(function() {
+                    main();
+                })
         }
     });
 }
