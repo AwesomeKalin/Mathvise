@@ -25,4 +25,4 @@ jobs:
      - name: Upload file to archive.org
        run: |
          ia configure -u ${{ secrets.IA_USER }} -p ${{ secrets.IA_PWD }}
-         ia upload mathvise-${{ github.sha }} mathvise-${{ github.sha }}.bundle --metadata="mediatype:software"--metadata="creator:AwesomeKalin" --metadata="title:mathvise-${{ github.sha }}" --metadata="scanner:Mathvise auto-archive" --metadata="collection:open_source_software" --metadata="subject:maths;math;revise;code;node.js;Github" --metadata="originalurl:https://github.com/AwesomeKalin/Mathvise" --retries 20
+         ia upload mathvise-${{ github.sha }} mathvise-${{ github.sha }}.bundle --metadata="mediatype:software" --metadata="creator:AwesomeKalin" --metadata="title:mathvise-${{ github.sha }}" --metadata="scanner:Mathvise auto-archive" --metadata="collection:open_source_software" --metadata="subject:maths;math;revise;code;node.js;Github" --metadata="originalurl:https://github.com/AwesomeKalin/Mathvise" --retries 20

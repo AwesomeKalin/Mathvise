@@ -19,11 +19,13 @@ function main() {
                 calcGradientStraightLine().then(function() {
                     main();
                 });
+                break;
             
             case 'Calculate equation of a straight line':
                 calcEquStrLine().then(function() {
                     main();
-                })
+                });
+                break;
         }
     });
 }
