@@ -133,3 +133,47 @@ export async function distanceFormula() {
         }
     }
 }
+export async function midpointFormula() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    const minVal = answers.min;
+    const maxVal = answers.max;
+    const decimal = answers.decimal;
+    for (var i = 0; i < 10; i++) {
+        const xa = randNum(minVal, maxVal, decimal);
+        const ya = randNum(minVal, maxVal, decimal);
+        const xb = randNum(minVal, maxVal, decimal);
+        const yb = randNum(minVal, maxVal, decimal);
+        const midpointx = (xa + xb) / 2;
+        const midpointy = (ya + yb) / 2;
+        const midpoint = `(${midpointx}, ${midpointy})`;
+        const providedAnswer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `What is the midpoint between (${xa}, ${ya}) and  (${xb}, ${yb})`,
+            }
+        ]);
+        if (midpoint == providedAnswer.answer) {
+            console.log('Correct!');
+        }
+        else {
+            console.log(`Incorrect! The correct answer was ${midpoint}`);
+        }
+    }
+}
