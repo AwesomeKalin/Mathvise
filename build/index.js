@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { calcEquStrLine, calcGradientStraightLine, distanceFormula, midpointFormula } from "./straightLine.js";
+import { calcEquStrLine, calcGradientStraightLine, distanceFormula, gradientFormula, midpointFormula } from "./straightLine.js";
 function main() {
     inquirer.prompt([
         {
@@ -11,6 +11,7 @@ function main() {
                 'Calculate equation of a straight line',
                 'Distance formula',
                 'Midpoint formula',
+                'Gradient formula',
                 'Exit',
             ]
         }
@@ -36,6 +37,10 @@ function main() {
                     main();
                 });
                 break;
+            case 'Gradient formula':
+                gradientFormula().then(function () {
+                    main();
+                });
         }
     });
 }

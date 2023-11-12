@@ -177,3 +177,50 @@ export async function midpointFormula() {
         }
     }
 }
+export async function gradientFormula() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear? (Must be between 0 and 179)',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding and must be between 0 and 179)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    let minVal = answers.min;
+    let maxVal = answers.max;
+    const decimal = answers.decimal;
+    if (answers.min < 0)
+        minVal = 0;
+    if (answers.min > 179)
+        minVal = 179;
+    if (answers.max < 0)
+        maxVal = 0;
+    if (answers.max > 179)
+        maxVal = 179;
+    for (var i = 0; i < 10; i++) {
+        const angle = randNum(minVal, maxVal, decimal);
+        const gradient = Math.tan(angle);
+        const answer = await inquirer.prompt([
+            {
+                type: 'number',
+                name: 'answer',
+                message: `What is the gradient when the angle between the line and the x-axis is ${angle}°`,
+            }
+        ]);
+        if (gradient == answer.answer) {
+            console.log('Correct!');
+        }
+        else {
+            console.log(`Incorrect! The correct answer was ${gradient}`);
+        }
+    }
+}
