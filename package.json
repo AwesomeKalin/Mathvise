@@ -1,19 +1,22 @@
 {
-  "name": "Mathvise",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc"
-  },
-  "type": "module",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@types/inquirer": "^9.0.6",
-    "@types/node": "^20.8.10",
-    "inquirer": "^9.2.11",
-    "typescript": "^5.2.2"
-  }
+    "name": "mathvise",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "run": "node ./build/index.js"
+    },
+    "type": "module",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "inquirer": "^9.2.12"
+    },
+    "devDependencies": {
+        "@types/inquirer": "^9.0.7",
+        "@types/node": "^20.9.0",
+        "typescript": "^5.2.2"
+    }
 }
