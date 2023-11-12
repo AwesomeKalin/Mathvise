@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { calcEquStrLine, calcGradientStraightLine, distanceFormula, gradientFormula, midpointFormula } from "./straightLine.js";
+import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula } from "./straightLine.js";
 function main() {
     inquirer.prompt([
         {
@@ -12,6 +12,7 @@ function main() {
                 'Distance formula',
                 'Midpoint formula',
                 'Gradient formula',
+                'Collinearity',
                 'Exit',
             ]
         }
@@ -41,6 +42,12 @@ function main() {
                 gradientFormula().then(function () {
                     main();
                 });
+                break;
+            case 'Collinearity':
+                collinearity().then(function () {
+                    main();
+                });
+                break;
         }
     });
 }

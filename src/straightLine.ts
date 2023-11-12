@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import { randNum } from "./utils/randNum.js";
+import chalk from "chalk";
 
 export async function calcGradientStraightLine() {
     const answers: { min: number, max: number, decimal: number } = await inquirer.prompt([
@@ -251,5 +252,54 @@ export async function gradientFormula() {
         } else {
             console.log(`Incorrect! The correct answer was ${gradient}`);
         }
+    }
+}
+
+export async function collinearity() {
+    const answers: { min: number, max: number, decimal: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear? (Number only affects Point A and B)',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding and number only affects Point A and B)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    const minVal: number = answers.min;
+    const maxVal: number = answers.max;
+    const decimal: number = answers.decimal;
+
+    for (var i = 0; i < 10; i++) {
+        const xa: number = randNum(minVal, maxVal, decimal);
+        const ya: number = randNum(minVal, maxVal, decimal);
+
+        const xb: number = randNum(minVal, maxVal, decimal);
+        const yb: number = randNum(minVal, maxVal, decimal);
+
+        const xc: number = xb + (xb - xa);
+        const yc: number = yb + (yb - ya);
+
+        const gradient: number = (yb - ya) / (xb - xa);
+
+        await inquirer.prompt([
+            {
+                type: 'confirm',
+                name: 'pause',
+                message: `Show that the points A(${xa}, ${ya}), B(${ya}, ${yb}) and C(${xc}, ${yc}) are collinear. Press enter when ready to see answer`,
+            }
+        ]);
+
+        console.log(`m${chalk.red("AB")} = (${yb} - ${ya}) / (${xb} - ${xa}) = ${gradient}`);
+        console.log(`m${chalk.red("BC")} = (${yc} - ${yb}) / (${xc} - ${xb}) = ${gradient}`);
+        console.log(`Since m${chalk.red("AB")} = m${chalk.red("BC")} and they share the common point B, A, B and C are collinear`);
     }
 }
