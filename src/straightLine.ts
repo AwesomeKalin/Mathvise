@@ -303,3 +303,46 @@ export async function collinearity() {
         console.log(`Since m${chalk.red("AB")} = m${chalk.red("BC")} and they share the common point B, A, B and C are collinear`);
     }
 }
+
+export async function perpendicularLines() {
+    const answers: { min: number, max: number, decimal: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    const minVal: number = answers.min;
+    const maxVal: number = answers.max;
+    const decimal: number = answers.decimal;
+
+    for (var i = 0; i < 10; i++) {
+        const gradient: number = randNum(minVal, maxVal, decimal);
+        const perpGrad: number = (-1) / gradient;
+
+        const providedAnswer: { answer: number } = await inquirer.prompt([
+            {
+                type: 'number',
+                name: 'answer',
+                message: `If m = ${gradient}, then what is m⟂`,
+            }
+        ]);
+
+        if (providedAnswer.answer == perpGrad) {
+            console.log('Correct!');
+        } else {
+            console.log(`Incorrect! The correct answer is ${perpGrad}`);
+        }
+    }
+}
