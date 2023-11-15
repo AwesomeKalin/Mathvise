@@ -17,11 +17,17 @@ export async function calcGradientStraightLine() {
             type: 'number',
             name: 'decimal',
             message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
         }
     ]);
     const minVal = answers.min;
     const maxVal = answers.max;
     const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
     for (var i = 0; i < 10; i++) {
         const xa = randNum(minVal, maxVal, decimal);
         const ya = randNum(minVal, maxVal, decimal);
@@ -35,11 +41,11 @@ export async function calcGradientStraightLine() {
                 message: `Find the gradient between AB when A is (${xa}, ${ya}) and B is (${xb}, ${yb})`,
             }
         ]);
-        if (gradient == providedAnswer.answer) {
+        if (+gradient.toPrecision(sigFigures) == providedAnswer.answer) {
             console.log('Correct!');
         }
         else {
-            console.log(`Incorrect! The correct answer was ${gradient}`);
+            console.log(`Incorrect! The correct answer was ${+gradient.toPrecision(sigFigures)}`);
         }
     }
     return;
@@ -60,11 +66,17 @@ export async function calcEquStrLine() {
             type: 'number',
             name: 'decimal',
             message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
         }
     ]);
     const minVal = answers.min;
     const maxVal = answers.max;
     const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
     for (var i = 0; i < 10; i++) {
         const xa = randNum(minVal, maxVal, decimal);
         const ya = randNum(minVal, maxVal, decimal);
@@ -72,9 +84,9 @@ export async function calcEquStrLine() {
         const yb = randNum(minVal, maxVal, decimal);
         const gradient = (yb - ya) / (xb - xa);
         const yItercept = ya - (gradient * xa);
-        let equation = `y = ${gradient.toPrecision(3)}x + ${yItercept.toPrecision(3)}`;
+        let equation = `y = ${gradient.toPrecision(sigFigures)}x + ${yItercept.toPrecision(sigFigures)}`;
         if (yItercept.toString().includes('-')) {
-            equation = `y = ${gradient.toPrecision(3)}x - ${yItercept.toPrecision(3)}`;
+            equation = `y = ${gradient.toPrecision(sigFigures)}x - ${yItercept.toPrecision(sigFigures)}`;
         }
         const providedAnswer = await inquirer.prompt([
             {
@@ -108,11 +120,17 @@ export async function distanceFormula() {
             type: 'number',
             name: 'decimal',
             message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
         }
     ]);
     const minVal = answers.min;
     const maxVal = answers.max;
     const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
     for (var i = 0; i < 10; i++) {
         const xa = randNum(minVal, maxVal, decimal);
         const ya = randNum(minVal, maxVal, decimal);
@@ -126,11 +144,11 @@ export async function distanceFormula() {
                 message: `Find the distance between AB when A is (${xa}, ${ya}) and B is (${xb}, ${yb})`,
             }
         ]);
-        if (distance == providedAnswer.answer) {
+        if (+distance.toPrecision(sigFigures) == providedAnswer.answer) {
             console.log('Correct!');
         }
         else {
-            console.log(`Incorrect! The correct answer was ${distance}`);
+            console.log(`Incorrect! The correct answer was ${distance.toPrecision(sigFigures)}`);
         }
     }
 }
@@ -150,11 +168,17 @@ export async function midpointFormula() {
             type: 'number',
             name: 'decimal',
             message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
         }
     ]);
     const minVal = answers.min;
     const maxVal = answers.max;
     const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
     for (var i = 0; i < 10; i++) {
         const xa = randNum(minVal, maxVal, decimal);
         const ya = randNum(minVal, maxVal, decimal);
@@ -162,7 +186,7 @@ export async function midpointFormula() {
         const yb = randNum(minVal, maxVal, decimal);
         const midpointx = (xa + xb) / 2;
         const midpointy = (ya + yb) / 2;
-        const midpoint = `(${midpointx}, ${midpointy})`;
+        const midpoint = `(${midpointx.toPrecision(sigFigures)}, ${midpointy.toPrecision(sigFigures)})`;
         const providedAnswer = await inquirer.prompt([
             {
                 type: 'input',
@@ -194,11 +218,17 @@ export async function gradientFormula() {
             type: 'number',
             name: 'decimal',
             message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
         }
     ]);
     let minVal = answers.min;
     let maxVal = answers.max;
     const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
     if (answers.min < 0)
         minVal = 0;
     if (answers.min > 179)
@@ -217,11 +247,11 @@ export async function gradientFormula() {
                 message: `What is the gradient when the angle between the line and the x-axis is ${angle}°`,
             }
         ]);
-        if (gradient == answer.answer) {
+        if (+gradient.toPrecision(sigFigures) == answer.answer) {
             console.log('Correct!');
         }
         else {
-            console.log(`Incorrect! The correct answer was ${gradient}`);
+            console.log(`Incorrect! The correct answer was ${gradient.toPrecision(sigFigures)}`);
         }
     }
 }
@@ -282,11 +312,17 @@ export async function perpendicularLines() {
             type: 'number',
             name: 'decimal',
             message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
         }
     ]);
     const minVal = answers.min;
     const maxVal = answers.max;
     const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
     for (var i = 0; i < 10; i++) {
         const gradient = randNum(minVal, maxVal, decimal);
         const perpGrad = (-1) / gradient;
@@ -297,11 +333,11 @@ export async function perpendicularLines() {
                 message: `If m = ${gradient}, then what is m⟂`,
             }
         ]);
-        if (providedAnswer.answer == perpGrad) {
+        if (providedAnswer.answer == +perpGrad.toPrecision(sigFigures)) {
             console.log('Correct!');
         }
         else {
-            console.log(`Incorrect! The correct answer is ${perpGrad}`);
+            console.log(`Incorrect! The correct answer is ${perpGrad.toPrecision(sigFigures)}`);
         }
     }
 }
