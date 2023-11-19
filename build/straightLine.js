@@ -306,7 +306,7 @@ export async function perpendicularLines() {
         {
             type: 'number',
             name: 'max',
-            message: 'What is the maximum number that you want to appear?',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
         },
         {
             type: 'number',
@@ -338,6 +338,67 @@ export async function perpendicularLines() {
         }
         else {
             console.log(`Incorrect! The correct answer is ${perpGrad.toPrecision(sigFigures)}`);
+        }
+    }
+}
+export async function perpBisector() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+    const minVal = answers.min;
+    const maxVal = answers.max;
+    const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
+    for (var i = 0; i < 10; i++) {
+        const xa = randNum(minVal, maxVal, decimal);
+        const ya = randNum(minVal, maxVal, decimal);
+        const xb = randNum(minVal, maxVal, decimal);
+        const yb = randNum(minVal, maxVal, decimal);
+        const xm = (xa + xb) / 2;
+        const ym = (ya + yb) / 2;
+        const gradient = (yb - ya) / (xb - xa);
+        const perpGrad = (-1) / gradient;
+        let yItercept = -(xm * perpGrad) + ym;
+        let operation;
+        if (yItercept.toString().charAt(0) == '-') {
+            operation = '-';
+            yItercept = 0 - yItercept;
+        }
+        else {
+            operation = '+';
+        }
+        const answer = `y = ${perpGrad.toPrecision(sigFigures)}x ${operation} ${yItercept.toPrecision(sigFigures)}`;
+        const providedAnswer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `A is (${xa}, ${ya}) and B(${xb}, ${yb}). Find the equation of the perpendicular bisector to AB in the form "y = mx + c"`,
+            }
+        ]);
+        if (providedAnswer.answer == answer) {
+            console.log('Correct!');
+        }
+        else {
+            console.log(`Incorrect! The answer is ${answer}`);
         }
     }
 }
