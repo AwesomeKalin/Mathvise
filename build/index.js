@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector } from "./straightLine.js";
+import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes } from "./straightLine.js";
 function main() {
     inquirer.prompt([
         {
@@ -15,6 +15,7 @@ function main() {
                 'Collinearity',
                 'Perpendicular Lines',
                 'Perpendicular Bisectors',
+                'Altitudes',
                 'Exit',
             ]
         }
@@ -57,6 +58,11 @@ function main() {
                 break;
             case 'Perpendicular Bisectors':
                 perpBisector().then(function () {
+                    main();
+                });
+                break;
+            case 'Altitudes':
+                altitudes().then(function () {
                     main();
                 });
                 break;

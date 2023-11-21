@@ -402,3 +402,64 @@ export async function perpBisector() {
         }
     }
 }
+export async function altitudes() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+    const minVal = answers.min;
+    const maxVal = answers.max;
+    const decimal = answers.decimal;
+    const sigFigures = answers.sigFig;
+    for (var i = 0; i < 10; i++) {
+        const xa = randNum(minVal, maxVal, decimal);
+        const ya = randNum(minVal, maxVal, decimal);
+        const xb = randNum(minVal, maxVal, decimal);
+        const yb = randNum(minVal, maxVal, decimal);
+        const xc = randNum(minVal, maxVal, decimal);
+        const yc = randNum(minVal, maxVal, decimal);
+        const gradCB = (yb - yc) / (xb - xc);
+        const gradCBPerp = (-1) / gradCB;
+        let yItercept = -(xa * gradCBPerp) + ya;
+        let operation;
+        if (yItercept.toString().charAt(0) == '-') {
+            operation = '-';
+            yItercept = 0 - yItercept;
+        }
+        else {
+            operation = '+';
+        }
+        const answer = `y = ${gradCBPerp.toPrecision(sigFigures)}x ${operation} ${yItercept.toPrecision(sigFigures)}`;
+        const providedAnswer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `Triangle ABC has verticies A(${xa}, ${ya}) B(${xb}, ${yb}) C(${xc}, ${yc}). Find the equation of the altitude from A in the form y = mx + c`,
+            }
+        ]);
+        if (providedAnswer.answer == answer) {
+            console.log('Correct!');
+        }
+        else {
+            console.log(`Incorrect! The correct answer is ${answer}`);
+        }
+    }
+}
