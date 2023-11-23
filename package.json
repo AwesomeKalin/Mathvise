@@ -5,8 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
-        "run": "node ./build/index.js",
-        "bundle": "rollup -c"
+        "run": "node ./build/index.js"
     },
     "type": "module",
     "keywords": [],
@@ -14,7 +13,8 @@
     "license": "ISC",
     "dependencies": {
         "chalk": "^5.3.0",
-        "inquirer": "^9.2.12"
+        "inquirer": "^9.2.12",
+        "unique-names-generator": "^4.7.1"
     },
     "devDependencies": {
         "@types/inquirer": "^9.0.7",

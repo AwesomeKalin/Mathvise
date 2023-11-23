@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes } from "./straightLine.js";
+import { accumulation } from "./applicationmaths.js";
 
 function main() {
     inquirer.prompt([
@@ -17,6 +18,7 @@ function main() {
                 'Perpendicular Lines',
                 'Perpendicular Bisectors',
                 'Altitudes',
+                'Accumulation',
                 'Exit',
             ]
         }
@@ -72,6 +74,12 @@ function main() {
 
             case 'Altitudes':
                 altitudes().then(function() {
+                    main();
+                });
+                break;
+
+            case 'Accumulation':
+                accumulation().then(function() {
                     main();
                 });
                 break;
