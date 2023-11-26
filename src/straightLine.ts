@@ -1,6 +1,7 @@
 import inquirer from "inquirer";
 import { randNum } from "./utils/randNum.js";
 import chalk from "chalk";
+import { yminusb } from "./utils/yminusb.js";
 
 export async function calcGradientStraightLine() {
     const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
@@ -425,17 +426,7 @@ export async function perpBisector() {
         const gradient: number = (yb - ya) / (xb - xa);
         const perpGrad: number = (-1) / gradient;
 
-        let yItercept: number = -(xm * perpGrad) + ym;
-
-        let operation: string;
-        if (yItercept.toString().charAt(0) == '-') {
-            operation = '-';
-            yItercept = 0 - yItercept;
-        } else {
-            operation = '+';
-        }
-
-        const answer: string = `y = ${perpGrad.toPrecision(sigFigures)}x ${operation} ${yItercept.toPrecision(sigFigures)}`;
+        const answer: string = yminusb(xm, ym, perpGrad, sigFigures);
 
         const providedAnswer: { answer: string } = await inquirer.prompt([
             {
@@ -495,23 +486,75 @@ export async function altitudes() {
         const gradCB: number = (yb - yc) / (xb - xc);
         const gradCBPerp: number = (-1) / gradCB;
 
-        let yItercept: number = -(xa * gradCBPerp) + ya;
-
-        let operation: string;
-        if (yItercept.toString().charAt(0) == '-') {
-            operation = '-';
-            yItercept = 0 - yItercept;
-        } else {
-            operation = '+';
-        }
-
-        const answer: string = `y = ${gradCBPerp.toPrecision(sigFigures)}x ${operation} ${yItercept.toPrecision(sigFigures)}`;
+        const answer: string = yminusb(xa, ya, gradCBPerp, sigFigures);
 
         const providedAnswer: { answer: string } = await inquirer.prompt([
             {
                 type: 'input',
                 name: 'answer',
                 message: `Triangle ABC has verticies A(${xa}, ${ya}) B(${xb}, ${yb}) C(${xc}, ${yc}). Find the equation of the altitude from A in the form y = mx + c`,
+            }
+        ]);
+
+        if (providedAnswer.answer == answer) {
+            console.log('Correct!');
+        } else {
+            console.log(`Incorrect! The correct answer is ${answer}`);
+        }
+    }
+}
+
+export async function medians() {
+    const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+
+    const minVal: number = answers.min;
+    const maxVal: number = answers.max;
+    const decimal: number = answers.decimal;
+    const sigFigures: number = answers.sigFig;
+
+    for (var i = 0; i < 10; i++) {
+        const xa: number = randNum(minVal, maxVal, decimal);
+        const ya: number = randNum(minVal, maxVal, decimal);
+
+        const xb: number = randNum(minVal, maxVal, decimal);
+        const yb: number = randNum(minVal, maxVal, decimal);
+
+        const xc: number = randNum(minVal, maxVal, decimal);
+        const yc: number = randNum(minVal, maxVal, decimal);
+
+        const xm: number = (xb + xc) / 2;
+        const ym: number = (yb + yc) / 2;
+
+        const gradAM: number = (ym - ya) / (xm - xa);
+
+        const answer: string = yminusb(xa, ya, gradAM, sigFigures);
+
+        const providedAnswer: { answer: string } = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `Triangle ABC has verticies A(${xa}, ${ya}) B(${xb}, ${yb}) C(${xc}, ${yc}). Find the equation of the median from A in the form y = mx + c`,
             }
         ]);
 

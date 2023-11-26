@@ -7,3 +7,4 @@ export declare function collinearity(): Promise<void>;
 export declare function perpendicularLines(): Promise<void>;
 export declare function perpBisector(): Promise<void>;
 export declare function altitudes(): Promise<void>;
+export declare function medians(): Promise<void>;

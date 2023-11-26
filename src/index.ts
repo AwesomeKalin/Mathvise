@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes } from "./straightLine.js";
+import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians } from "./straightLine.js";
 import { accumulation } from "./applicationmaths.js";
 
 function main() {
@@ -19,6 +19,7 @@ function main() {
                 'Perpendicular Bisectors',
                 'Altitudes',
                 'Accumulation',
+                'Medians',
                 'Exit',
             ]
         }
@@ -84,6 +85,11 @@ function main() {
                 });
                 break;
 
+            case 'Medians':
+                medians().then(function() {
+                    main();
+                });
+                break;
         }
     });
 }
