@@ -186,3 +186,72 @@ export async function accumulation() {
         }
     }
 }
+
+export async function accumulationmultiinterest() {
+    const values: {
+        minCash: number,
+        maxCash: number,
+        minPercentage: number,
+        maxPercentage: number,
+        decimal: number,
+        minTime: number,
+        maxTime: number,
+        decimalTime: number
+    } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'minCash',
+            message: 'What is the minimum amount of money that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'maxCash',
+            message: 'What is that maximum amount of money that you want to appear? (May be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'minPercentage',
+            message: 'What is the minimum percentage that you want to appear? (Do not add % symbol)',
+        },
+        {
+            type: 'number',
+            name: 'maxPercentage',
+            message: 'What is the maximum percentage that you want to appear? (Do not add % symbol and may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'How many decimal points do you want the percentage to have?',
+        },
+    ]);
+
+    for (var i = 0; i < 10; i++) {
+        const cash: number = randNum(values.minCash, values.maxCash, 2);
+
+        const interest1: number = randNum(values.minPercentage, values.maxPercentage, values.decimal);
+        const multiplier1: number = 1 + (interest1 / 100);
+
+        const interest2: number = randNum(values.minPercentage, values.maxPercentage, values.decimal);
+        const multiplier2: number = 1 + (interest2 / 100);
+
+        const interest3: number = randNum(values.minPercentage, values.maxPercentage, values.decimal);
+        const multiplier3: number = 1 + (interest3 / 100);
+
+        const answer: number = +(cash * multiplier1 * Math.pow(multiplier2, 2) * Math.pow(multiplier3, 12)).toFixed(2);
+        const question: string = `${uniqueNamesGenerator({ dictionaries: [names], })} has deposited £${cash} into a savings account on the 1st January ${new Date().getFullYear()} with an interest rate of ${interest1}% per annum between 1st January ${new Date().getFullYear()} and 1st January ${new Date().getFullYear() + 1}, ${interest2}% per half-year between 1st January ${new Date().getFullYear() + 1} and 1st January ${new Date().getFullYear() + 2}, and ${interest3}% per month after 1st January ${new Date().getFullYear() + 2}. Calculate the amount of money on the 1st January ${new Date().getFullYear() + 3}`;
+
+        const providedAnswer: { answer: number } = await inquirer.prompt([
+            {
+                type: 'number',
+                name: 'answer',
+                message: question,
+            }
+        ]);
+
+        if (providedAnswer.answer == answer) {
+            console.log('Correct!');
+        } else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}

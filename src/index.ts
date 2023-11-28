@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians } from "./straightLine.js";
-import { accumulation } from "./applicationmaths.js";
+import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 
 function main() {
     inquirer.prompt([
@@ -20,6 +20,7 @@ function main() {
                 'Altitudes',
                 'Accumulation',
                 'Medians',
+                'Accumulation with Multiple Interest Rates',
                 'Exit',
             ]
         }
@@ -87,6 +88,12 @@ function main() {
 
             case 'Medians':
                 medians().then(function() {
+                    main();
+                });
+                break;
+
+            case 'Accumulation with Multiple Interest Rates':
+                accumulationmultiinterest().then(function() {
                     main();
                 });
                 break;
