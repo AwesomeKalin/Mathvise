@@ -11,3 +11,4 @@ export declare function medians(): Promise<void>;
 export declare function composite(): Promise<void>;
 export declare function inverse(): Promise<void>;
 export declare function inverseTransform(): Promise<void>;
+export declare function logFunctions(): Promise<void>;

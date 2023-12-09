@@ -2,7 +2,6 @@ import inquirer from "inquirer";
 import { randNum } from "./utils/randNum.js";
 import chalk from "chalk";
 import { yminusb } from "./utils/yminusb.js";
-import Graph from "desmos-builder/index.js";
 
 export async function calcGradientStraightLine() {
     const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
@@ -828,6 +827,62 @@ export async function inverseTransform() {
             console.log('Co-ord 2 is Correct!');
         } else {
             console.log(`Incorrect! The correct answer for co-ord 2 is ${coord2}`);
+        }
+    }
+}
+
+export async function logFunctions() {
+    const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    const minVal: number = answers.min;
+    const maxVal: number = answers.max;
+    const decimal: number = answers.decimal;
+
+    for (var i = 0; i < 10; i++) {
+        const xa: number = randNum(minVal, maxVal, decimal);
+        const xb: number = randNum(minVal, maxVal, decimal);
+
+        const shift: number = xa - 1;
+        let shiftDisplay: number = shift
+        let shiftOperation: '+' | '-' = '-';
+
+        if (shift < 0) {
+            shiftDisplay = 0 - shift;
+            shiftOperation = '+';
+        }
+
+        const aAnswer: number = xb - shift;
+        
+        const answer: string = `y = log${aAnswer}(x ${shiftOperation} ${shiftDisplay})`;
+
+        const provAnswer: { answer: string } = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `A log function goes through the points (${xa}, 0) and (${xb}, 1). What is the function, in the form y = loga(x + b)`,
+            }
+        ]);
+
+        if (answer === provAnswer.answer) {
+            console.log('Correct!');
+        } else {
+            console.log(`Incorrect! The correct answer is ${answer}`);
         }
     }
 }

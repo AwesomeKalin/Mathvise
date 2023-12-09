@@ -731,3 +731,51 @@ export async function inverseTransform() {
         }
     }
 }
+export async function logFunctions() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    const minVal = answers.min;
+    const maxVal = answers.max;
+    const decimal = answers.decimal;
+    for (var i = 0; i < 10; i++) {
+        const xa = randNum(minVal, maxVal, decimal);
+        const xb = randNum(minVal, maxVal, decimal);
+        const shift = xa - 1;
+        let shiftDisplay = shift;
+        let shiftOperation = '-';
+        if (shift < 0) {
+            shiftDisplay = 0 - shift;
+            shiftOperation = '+';
+        }
+        const aAnswer = xb - shift;
+        const answer = `y = log${aAnswer}(x ${shiftOperation} ${shiftDisplay})`;
+        const provAnswer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `A log function goes through the points (${xa}, 0) and (${xb}, 1). What is the function, in the form y = loga(x + b)`,
+            }
+        ]);
+        if (answer === provAnswer.answer) {
+            console.log('Correct!');
+        }
+        else {
+            console.log(`Incorrect! The correct answer is ${answer}`);
+        }
+    }
+}
