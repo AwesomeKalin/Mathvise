@@ -1,6 +1,7 @@
 import inquirer from "inquirer";
 import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians, composite, inverse, inverseTransform, logFunctions } from "./straightLine.js";
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
+import { differentiate } from "./differentiation.js";
 function main() {
     inquirer.prompt([
         {
@@ -24,6 +25,7 @@ function main() {
                 'Inverse Functions',
                 'Graph Transformations',
                 'Log functions',
+                'Differentiate',
                 'Exit',
             ]
         }
@@ -106,6 +108,11 @@ function main() {
                 break;
             case 'Log functions':
                 logFunctions().then(function () {
+                    main();
+                });
+                break;
+            case 'Differentiate':
+                differentiate().then(function () {
                     main();
                 });
                 break;
