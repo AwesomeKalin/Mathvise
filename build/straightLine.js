@@ -499,3 +499,235 @@ export async function medians() {
         }
     }
 }
+export async function composite() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    const minVal = answers.min;
+    const maxVal = answers.max;
+    const decimal = answers.decimal;
+    for (var i = 0; i < 10; i++) {
+        const fxsquared = randNum(minVal, maxVal, decimal);
+        let fintercept = randNum(minVal, maxVal, decimal);
+        let foperation = '+';
+        if (fintercept < 0) {
+            foperation = '-';
+            fintercept = 0 - fintercept;
+        }
+        const gx = randNum(minVal, maxVal, decimal);
+        let gintercept = randNum(minVal, maxVal, decimal);
+        let goperation = '+';
+        if (gintercept < 0) {
+            goperation = '-';
+            gintercept = 0 - gintercept;
+        }
+        const ffunction = `f(x) = ${fxsquared}x^2 ${foperation} ${fintercept}`;
+        const gfunction = `g(x) = ${gx}x ${goperation} ${gintercept}`;
+        const fOfgOfXbracketsXsquared = Math.pow(gx, 2) * fxsquared;
+        let fOfgOfXbracketsIntercept = Math.pow(gintercept, 2) * fxsquared;
+        let fOfgOfXbracketsX;
+        let fOfgOfxbracketsInterceptOperation = '+';
+        let fOfgOfxbracketsXOperation = '+';
+        if (goperation === '+') {
+            fOfgOfXbracketsX = ((gx * gintercept) * 2) * fxsquared;
+        }
+        else {
+            fOfgOfXbracketsX = ((gx * -gintercept) * 2) * fxsquared;
+        }
+        if (foperation === '+') {
+            fOfgOfXbracketsIntercept += fintercept;
+        }
+        else {
+            fOfgOfXbracketsIntercept -= fintercept;
+        }
+        if (fOfgOfXbracketsX < 0) {
+            fOfgOfxbracketsXOperation = '-';
+            fOfgOfXbracketsX = 0 - fOfgOfXbracketsX;
+        }
+        if (fOfgOfXbracketsIntercept < 0) {
+            fOfgOfxbracketsInterceptOperation = '-';
+            fOfgOfXbracketsIntercept = 0 - fOfgOfXbracketsIntercept;
+        }
+        const fOfgOfX = `f(g(x)) = ${fOfgOfXbracketsXsquared}x^2 ${fOfgOfxbracketsXOperation} ${fOfgOfXbracketsX}x ${fOfgOfxbracketsInterceptOperation} ${fOfgOfXbracketsIntercept}`;
+        const gOffOfXbracketsXsquared = gx * fxsquared;
+        let gOffOfXbracketsIntercept;
+        let gOffOfXbracketsInterceptOperation = '+';
+        if (foperation === '+') {
+            gOffOfXbracketsIntercept = gx * fintercept;
+        }
+        else {
+            gOffOfXbracketsIntercept = gx * -fintercept;
+        }
+        if (goperation === '+') {
+            gOffOfXbracketsIntercept += gintercept;
+        }
+        else {
+            gOffOfXbracketsIntercept -= gintercept;
+        }
+        if (gOffOfXbracketsIntercept < 0) {
+            gOffOfXbracketsInterceptOperation = '-';
+        }
+        const gOffOfX = `g(f(x)) = ${gOffOfXbracketsXsquared}x^2 ${gOffOfXbracketsInterceptOperation} ${gOffOfXbracketsIntercept}`;
+        const answer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'fOfgOfX',
+                message: `If ${ffunction} and ${gfunction}, what is f(g(x)), in the form f(g(x)) = ax^2 + bx + c`,
+            },
+            {
+                type: 'input',
+                name: 'gOffOfX',
+                message: `If ${ffunction} and ${gfunction}, what is g(f(x)), in the form g(f(x)) = ax^2 + b`,
+            }
+        ]);
+        if (answer.fOfgOfX === fOfgOfX) {
+            console.log('f(g(x)) correct!');
+        }
+        else {
+            console.log(`f(g(x)) incorrect! The correct answer was ${fOfgOfX}`);
+        }
+        if (answer.gOffOfX === gOffOfX) {
+            console.log('g(f(x)) correct!');
+        }
+        else {
+            console.log(`g(f(x)) incorrect! The correct answer was ${gOffOfX}`);
+        }
+    }
+}
+export async function inverse() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    const minVal = answers.min;
+    const maxVal = answers.max;
+    const decimal = answers.decimal;
+    for (var i = 0; i < 10; i++) {
+        const xcubed = randNum(minVal, maxVal, decimal);
+        const intercept = randNum(minVal, maxVal, decimal);
+        let fOfXoperation = '+';
+        let fOfXintercept = intercept;
+        if (intercept < 0) {
+            fOfXoperation = '-';
+            fOfXintercept = 0 - intercept;
+        }
+        const fOfX = `f(x) = ${xcubed}x^3 ${fOfXoperation} ${fOfXintercept}`;
+        let answerOperation;
+        if (fOfXoperation === '+') {
+            answerOperation = '-';
+        }
+        else {
+            answerOperation = '+';
+        }
+        const answer = `f^-1(x) = sqrt((x ${answerOperation} ${fOfXintercept}) / ${xcubed})`;
+        const providedAnswer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `If ${fOfX}, then what is the inverse of f(x), in the form f^-1(x) = sqrt((x + a) / b)`,
+            },
+        ]);
+        if (providedAnswer.answer === answer) {
+            console.log('Correct!');
+        }
+        else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}
+export async function inverseTransform() {
+    const answers = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    const minVal = answers.min;
+    const maxVal = answers.max;
+    const decimal = answers.decimal;
+    for (var i = 0; i < 10; i++) {
+        const xa = randNum(minVal, maxVal, decimal);
+        const ya = randNum(minVal, maxVal, decimal);
+        const xb = randNum(minVal, maxVal, decimal);
+        const y = randNum(minVal, maxVal, decimal);
+        const x = randNum(minVal, maxVal, decimal);
+        let yDisplay = y;
+        let xDisplay = x;
+        let yOperation = '+';
+        let xOperation = '+';
+        if (y < 0) {
+            yOperation = '-';
+            yDisplay = 0 - y;
+        }
+        if (x < 0) {
+            xOperation = '-';
+            xDisplay = 0 - x;
+        }
+        const question = `A line goes through (${xa}, ${ya}) and (${xb}, a). Calculate what the new co-ordinates if the graph function was f(x ${xOperation} ${xDisplay}) ${yOperation} ${yDisplay}`;
+        const coord1 = `(${xa - x}, ${ya + y})`;
+        const coord2 = `(${xb - x}, a ${yOperation} ${yDisplay})`;
+        console.log(question);
+        const answers = await inquirer.prompt([
+            {
+                type: 'input',
+                message: 'Co-ord 1',
+                name: 'coord1',
+            },
+            {
+                type: 'input',
+                message: 'Co-ord 2',
+                name: 'coord2',
+            },
+        ]);
+        if (coord1 == answers.coord1) {
+            console.log('Co-ord 1 is Correct!');
+        }
+        else {
+            console.log(`Incorrect! The correct answer for co-ord 1 is ${coord1}`);
+        }
+        if (coord2 == answers.coord2) {
+            console.log('Co-ord 2 is Correct!');
+        }
+        else {
+            console.log(`Incorrect! The correct answer for co-ord 2 is ${coord2}`);
+        }
+    }
+}

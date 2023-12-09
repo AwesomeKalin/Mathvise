@@ -2,6 +2,7 @@ import inquirer from "inquirer";
 import { randNum } from "./utils/randNum.js";
 import chalk from "chalk";
 import { yminusb } from "./utils/yminusb.js";
+import Graph from "desmos-builder/index.js";
 
 export async function calcGradientStraightLine() {
     const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
@@ -211,8 +212,8 @@ export async function midpointFormula() {
         const xb: number = randNum(minVal, maxVal, decimal);
         const yb: number = randNum(minVal, maxVal, decimal);
 
-        const midpointx: number = (xa+xb)/2;
-        const midpointy: number = (ya+yb)/2;
+        const midpointx: number = (xa + xb) / 2;
+        const midpointy: number = (ya + yb) / 2;
         const midpoint: string = `(${midpointx.toPrecision(sigFigures)}, ${midpointy.toPrecision(sigFigures)})`;
 
         const providedAnswer: { answer: string } = await inquirer.prompt([
@@ -562,6 +563,271 @@ export async function medians() {
             console.log('Correct!');
         } else {
             console.log(`Incorrect! The correct answer is ${answer}`);
+        }
+    }
+}
+
+export async function composite() {
+    const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    const minVal: number = answers.min;
+    const maxVal: number = answers.max;
+    const decimal: number = answers.decimal;
+
+    for (var i = 0; i < 10; i++) {
+        const fxsquared: number = randNum(minVal, maxVal, decimal);
+        let fintercept: number = randNum(minVal, maxVal, decimal);
+        let foperation: '+' | '-' = '+';
+
+        if (fintercept < 0) {
+            foperation = '-';
+            fintercept = 0 - fintercept;
+        }
+
+        const gx: number = randNum(minVal, maxVal, decimal);
+        let gintercept: number = randNum(minVal, maxVal, decimal);
+        let goperation: '+' | '-' = '+';
+
+        if (gintercept < 0) {
+            goperation = '-';
+            gintercept = 0 - gintercept;
+        }
+
+        const ffunction: string = `f(x) = ${fxsquared}x^2 ${foperation} ${fintercept}`;
+        const gfunction: string = `g(x) = ${gx}x ${goperation} ${gintercept}`;
+
+        const fOfgOfXbracketsXsquared: number = Math.pow(gx, 2) * fxsquared;
+        let fOfgOfXbracketsIntercept: number = Math.pow(gintercept, 2) * fxsquared;
+        let fOfgOfXbracketsX: number;
+        let fOfgOfxbracketsInterceptOperation: '+' | '-' = '+';
+        let fOfgOfxbracketsXOperation: '+' | '-' = '+';
+
+        if (goperation === '+') {
+            fOfgOfXbracketsX = ((gx * gintercept) * 2) * fxsquared;
+        } else {
+            fOfgOfXbracketsX = ((gx * -gintercept) * 2) * fxsquared;
+        }
+
+        if (foperation === '+') {
+            fOfgOfXbracketsIntercept += fintercept;
+        } else {
+            fOfgOfXbracketsIntercept -= fintercept;
+        }
+
+        if (fOfgOfXbracketsX < 0) {
+            fOfgOfxbracketsXOperation = '-';
+            fOfgOfXbracketsX = 0 - fOfgOfXbracketsX;
+        }
+
+        if (fOfgOfXbracketsIntercept < 0) {
+            fOfgOfxbracketsInterceptOperation = '-';
+            fOfgOfXbracketsIntercept = 0 - fOfgOfXbracketsIntercept;
+        }
+
+        const fOfgOfX: string = `f(g(x)) = ${fOfgOfXbracketsXsquared}x^2 ${fOfgOfxbracketsXOperation} ${fOfgOfXbracketsX}x ${fOfgOfxbracketsInterceptOperation} ${fOfgOfXbracketsIntercept}`;
+
+        const gOffOfXbracketsXsquared: number = gx * fxsquared;
+        let gOffOfXbracketsIntercept: number;
+        let gOffOfXbracketsInterceptOperation: '+' | '-' = '+';
+
+        if (foperation === '+') {
+            gOffOfXbracketsIntercept = gx * fintercept;
+        } else {
+            gOffOfXbracketsIntercept = gx * -fintercept;
+        }
+
+        if (goperation === '+') {
+            gOffOfXbracketsIntercept += gintercept;
+        } else {
+            gOffOfXbracketsIntercept -= gintercept;
+        }
+
+        if (gOffOfXbracketsIntercept < 0) {
+            gOffOfXbracketsInterceptOperation = '-';
+        }
+
+        const gOffOfX: string = `g(f(x)) = ${gOffOfXbracketsXsquared}x^2 ${gOffOfXbracketsInterceptOperation} ${gOffOfXbracketsIntercept}`;
+
+        const answer: { fOfgOfX: string, gOffOfX: string } = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'fOfgOfX',
+                message: `If ${ffunction} and ${gfunction}, what is f(g(x)), in the form f(g(x)) = ax^2 + bx + c`,
+            },
+            {
+                type: 'input',
+                name: 'gOffOfX',
+                message: `If ${ffunction} and ${gfunction}, what is g(f(x)), in the form g(f(x)) = ax^2 + b`,
+            }
+        ]);
+
+        if (answer.fOfgOfX === fOfgOfX) {
+            console.log('f(g(x)) correct!');
+        } else {
+            console.log(`f(g(x)) incorrect! The correct answer was ${fOfgOfX}`);
+        }
+
+        if (answer.gOffOfX === gOffOfX) {
+            console.log('g(f(x)) correct!');
+        } else {
+            console.log(`g(f(x)) incorrect! The correct answer was ${gOffOfX}`);
+        }
+    }
+}
+
+export async function inverse() {
+    const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    const minVal: number = answers.min;
+    const maxVal: number = answers.max;
+    const decimal: number = answers.decimal;
+
+    for (var i = 0; i < 10; i++) {
+        const xcubed: number = randNum(minVal, maxVal, decimal);
+        const intercept: number = randNum(minVal, maxVal, decimal);
+        let fOfXoperation: '+' | '-' = '+';
+        let fOfXintercept: number = intercept;
+
+        if (intercept < 0) {
+            fOfXoperation = '-';
+            fOfXintercept = 0 - intercept;
+        }
+
+        const fOfX: string = `f(x) = ${xcubed}x^3 ${fOfXoperation} ${fOfXintercept}`;
+
+        let answerOperation: '+' | '-';
+        if (fOfXoperation === '+') {
+            answerOperation = '-';
+        } else {
+            answerOperation = '+';
+        }
+
+        const answer: string = `f^-1(x) = sqrt((x ${answerOperation} ${fOfXintercept}) / ${xcubed})`;
+
+        const providedAnswer: { answer: string } = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'answer',
+                message: `If ${fOfX}, then what is the inverse of f(x), in the form f^-1(x) = sqrt((x + a) / b)`,
+            },
+        ]);
+
+        if (providedAnswer.answer === answer) {
+            console.log('Correct!');
+        } else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}
+
+export async function inverseTransform() {
+    const answers: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    const minVal: number = answers.min;
+    const maxVal: number = answers.max;
+    const decimal: number = answers.decimal;
+
+    for (var i = 0; i < 10; i++) {
+        const xa: number = randNum(minVal, maxVal, decimal);
+        const ya: number = randNum(minVal, maxVal, decimal);
+
+        const xb: number = randNum(minVal, maxVal, decimal);
+
+        const y: number = randNum(minVal, maxVal, decimal);
+        const x: number = randNum(minVal, maxVal, decimal);
+        let yDisplay: number = y;
+        let xDisplay: number = x;
+        let yOperation: '+' | '-' = '+';
+        let xOperation: '+' | '-' = '+';
+
+        if (y < 0) {
+            yOperation = '-';
+            yDisplay = 0 - y;
+        }
+
+        if (x < 0) {
+            xOperation = '-';
+            xDisplay = 0 - x;
+        }
+
+        const question: string = `A line goes through (${xa}, ${ya}) and (${xb}, a). Calculate what the new co-ordinates if the graph function was f(x ${xOperation} ${xDisplay}) ${yOperation} ${yDisplay}`;
+
+        const coord1: string = `(${xa - x}, ${ya + y})`;
+        const coord2: string = `(${xb - x}, a ${yOperation} ${yDisplay})`;
+
+        console.log(question);
+
+        const answers: {coord1: string, coord2: string} = await inquirer.prompt([
+            {
+                type: 'input',
+                message: 'Co-ord 1',
+                name: 'coord1',
+            },
+            {
+                type: 'input',
+                message: 'Co-ord 2',
+                name: 'coord2',
+            },
+        ]);
+
+        if (coord1 == answers.coord1) {
+            console.log('Co-ord 1 is Correct!');
+        } else {
+            console.log(`Incorrect! The correct answer for co-ord 1 is ${coord1}`);
+        }
+
+        if (coord2 == answers.coord2) {
+            console.log('Co-ord 2 is Correct!');
+        } else {
+            console.log(`Incorrect! The correct answer for co-ord 2 is ${coord2}`);
         }
     }
 }

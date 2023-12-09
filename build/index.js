@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians } from "./straightLine.js";
+import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians, composite, inverse, inverseTransform } from "./straightLine.js";
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 function main() {
     inquirer.prompt([
@@ -20,6 +20,9 @@ function main() {
                 'Accumulation',
                 'Medians',
                 'Accumulation with Multiple Interest Rates',
+                'Composite Functions',
+                'Inverse Functions',
+                'Graph Transformations',
                 'Exit',
             ]
         }
@@ -82,6 +85,21 @@ function main() {
                 break;
             case 'Accumulation with Multiple Interest Rates':
                 accumulationmultiinterest().then(function () {
+                    main();
+                });
+                break;
+            case 'Composite Functions':
+                composite().then(function () {
+                    main();
+                });
+                break;
+            case 'Inverse Functions':
+                inverse().then(function () {
+                    main();
+                });
+                break;
+            case 'Graph Transformations':
+                inverseTransform().then(function () {
                     main();
                 });
                 break;

@@ -8,3 +8,6 @@ export declare function perpendicularLines(): Promise<void>;
 export declare function perpBisector(): Promise<void>;
 export declare function altitudes(): Promise<void>;
 export declare function medians(): Promise<void>;
+export declare function composite(): Promise<void>;
+export declare function inverse(): Promise<void>;
+export declare function inverseTransform(): Promise<void>;

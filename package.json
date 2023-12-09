@@ -13,6 +13,7 @@
     "license": "ISC",
     "dependencies": {
         "chalk": "^5.3.0",
+        "desmos-builder": "^1.0.1",
         "inquirer": "^9.2.12",
         "unique-names-generator": "^4.7.1"
     },
