@@ -87,7 +87,7 @@ export async function calcEquStrLine() {
         const yItercept = ya - (gradient * xa);
         let equation = `y = ${gradient.toPrecision(sigFigures)}x + ${yItercept.toPrecision(sigFigures)}`;
         if (yItercept.toString().includes('-')) {
-            equation = `y = ${gradient.toPrecision(sigFigures)}x - ${yItercept.toPrecision(sigFigures)}`;
+            equation = `y = ${gradient.toPrecision(sigFigures)}x - ${0 - +yItercept.toPrecision(sigFigures)}`;
         }
         const providedAnswer = await inquirer.prompt([
             {
