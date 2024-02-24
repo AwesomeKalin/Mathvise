@@ -435,7 +435,18 @@ export async function perpBisector() {
         const ym: number = (ya + yb) / 2;
 
         const gradient: number = (yb - ya) / (xb - xa);
+
+        if (gradient === Infinity) {
+            i--;
+            break;
+        }
+
         const perpGrad: number = (-1) / gradient;
+
+        if (perpGrad === Infinity) {
+            i--;
+            break;
+        }
 
         const answer: string = yminusb(xm, ym, perpGrad, sigFigures);
 

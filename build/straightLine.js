@@ -385,7 +385,15 @@ export async function perpBisector() {
         const xm = (xa + xb) / 2;
         const ym = (ya + yb) / 2;
         const gradient = (yb - ya) / (xb - xa);
+        if (gradient === Infinity) {
+            i--;
+            break;
+        }
         const perpGrad = (-1) / gradient;
+        if (perpGrad === Infinity) {
+            i--;
+            break;
+        }
         const answer = yminusb(xm, ym, perpGrad, sigFigures);
         const providedAnswer = await inquirer.prompt([
             {
