@@ -111,7 +111,7 @@ export async function calcEquStrLine() {
         let equation: string = `y = ${gradient.toPrecision(sigFigures)}x + ${yItercept.toPrecision(sigFigures)}`;
 
         if (yItercept.toString().includes('-')) {
-            equation = `y = ${gradient.toPrecision(sigFigures)}x - ${0 - +yItercept.toPrecision(sigFigures)}`;
+            equation = `y = ${gradient.toPrecision(sigFigures)}x - ${(0 - +yItercept).toPrecision(sigFigures)}`;
         }
 
         const providedAnswer: { answer: string } = await inquirer.prompt([
@@ -230,7 +230,7 @@ export async function midpointFormula() {
             {
                 type: 'input',
                 name: 'answer',
-                message: `What is the midpoint between (${xa}, ${ya}) and  (${xb}, ${yb})`,
+                message: `What is the midpoint between (${xa}, ${ya}) and (${xb}, ${yb})`,
             }
         ]);
 
@@ -279,7 +279,7 @@ export async function gradientFormula() {
 
     for (var i = 0; i < 10; i++) {
         const angle: number = randNum(minVal, maxVal, decimal);
-        const gradient: number = Math.tan(angle);
+        const gradient: number = Math.tan((angle * Math.PI) / 180);
 
         const answer: { answer: number } = await inquirer.prompt([
             {
