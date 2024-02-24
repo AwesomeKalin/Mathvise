@@ -41,6 +41,11 @@ export async function calcGradientStraightLine() {
 
         const gradient: number = (yb - ya) / (xb - xa);
 
+        if (gradient === Infinity) {
+            i--;
+            break;
+        }
+
         const providedAnswer: { answer: number } = await inquirer.prompt([
             {
                 type: 'number',
@@ -96,6 +101,12 @@ export async function calcEquStrLine() {
         const yb: number = randNum(minVal, maxVal, decimal);
 
         const gradient: number = (yb - ya) / (xb - xa);
+
+        if (gradient === Infinity) {
+            i--;
+            break;
+        }
+
         const yItercept: number = ya - (gradient * xa);
         let equation: string = `y = ${gradient.toPrecision(sigFigures)}x + ${yItercept.toPrecision(sigFigures)}`;
 
