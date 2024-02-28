@@ -45,3 +45,81 @@ export async function magnitude() {
         }
     }
 }
+export async function additionOfVectors() {
+    const values = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    for (var i = 0; i < 10; i++) {
+        const vector1x = randNum(values.min, values.max, values.decimal);
+        const vector1y = randNum(values.min, values.max, values.decimal);
+        const vector2x = randNum(values.min, values.max, values.decimal);
+        const vector2y = randNum(values.min, values.max, values.decimal);
+        const resultx = vector1x + vector2x;
+        const resulty = vector1y + vector2y;
+        const answerCoord = `(${resultx}, ${resulty})`;
+        const { answer } = await inquirer.prompt({
+            type: 'input',
+            name: 'answer',
+            message: `If A is the vector (${vector1x}, ${vector1y}) and B is (${vector2x}, ${vector2y}), then what is A+B?`,
+        });
+        if (answer === answerCoord) {
+            console.log('Correct');
+        }
+        else {
+            console.log(`Incorrect! The answer is ${answerCoord}`);
+        }
+    }
+}
+export async function subtractionOfVectors() {
+    const values = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+    for (var i = 0; i < 10; i++) {
+        const vector1x = randNum(values.min, values.max, values.decimal);
+        const vector1y = randNum(values.min, values.max, values.decimal);
+        const vector2x = randNum(values.min, values.max, values.decimal);
+        const vector2y = randNum(values.min, values.max, values.decimal);
+        const resultx = vector1x - vector2x;
+        const resulty = vector1y - vector2y;
+        const answerCoord = `(${resultx}, ${resulty})`;
+        const { answer } = await inquirer.prompt({
+            type: 'input',
+            name: 'answer',
+            message: `If A is the vector (${vector1x}, ${vector1y}) and B is (${vector2x}, ${vector2y}), then what is A-B?`,
+        });
+        if (answer === answerCoord) {
+            console.log('Correct');
+        }
+        else {
+            console.log(`Incorrect! The answer is ${answerCoord}`);
+        }
+    }
+}

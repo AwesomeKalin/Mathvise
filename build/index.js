@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians, composite, inverse, inverseTransform, logFunctions } from "./straightLine.js";
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 import { differentiate } from "./differentiation.js";
-import { magnitude } from "./vectors.js";
+import { additionOfVectors, magnitude, subtractionOfVectors } from "./vectors.js";
 function main() {
     inquirer.prompt([
         {
@@ -28,6 +28,8 @@ function main() {
                 'Log functions',
                 'Differentiate',
                 'Magnitudes',
+                'Addition of Vectors',
+                'Subtraction of Vectors',
                 'Exit',
             ]
         }
@@ -120,6 +122,16 @@ function main() {
                 break;
             case 'Magnitudes':
                 magnitude().then(function () {
+                    main();
+                });
+                break;
+            case 'Addition of Vectors':
+                additionOfVectors().then(function () {
+                    main();
+                });
+                break;
+            case 'Subtraction of Vectors':
+                subtractionOfVectors().then(function () {
                     main();
                 });
                 break;
