@@ -142,3 +142,45 @@ export async function subtractionOfVectors() {
         }
     }
 }
+
+export async function multiplicationVectors() {
+    const values: { min: number, max: number, decimal: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    for (var i = 0; i < 10; i++) {
+        const multiplyBy: number = randNum(values.min, values.max, values.decimal);
+        const vectorx: number = randNum(values.min, values.max, values.decimal);
+        const vectory: number = randNum(values.min, values.max, values.decimal);
+
+        const vectorxAnswer: number = vectorx * multiplyBy;
+        const vectoryAnswer: number = vectory * multiplyBy;
+        const answer: string = `(${vectorxAnswer}, ${vectoryAnswer})`;
+
+        const { provided }: { provided: string } = await inquirer.prompt({
+            type: 'input',
+            name: 'provided',
+            message: `If u is (${vectorx}, ${vectory}), then what is ${multiplyBy}u?`,
+        });
+
+        if (provided === answer) {
+            console.log('Correct');
+        } else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}
