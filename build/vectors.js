@@ -270,7 +270,7 @@ export async function sectionFormula() {
         const ratio = randNum(values.min, values.max, values.decimal);
         const vectorAnswerx = ((ratio * vector1x) + vector2x) / (ratio + 1);
         const vectorAnswery = ((ratio * vector1y) + vector2y) / (ratio + 1);
-        const answer = `(${vectorAnswerx}, ${vectorAnswery})`;
+        const answer = `(${vectorAnswerx.toPrecision(values.sigFig)}, ${vectorAnswery.toPrecision(values.sigFig)})`;
         const { provided } = await inquirer.prompt({
             type: 'input',
             name: 'provided',

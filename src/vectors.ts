@@ -309,7 +309,7 @@ export async function  sectionFormula() {
         const vectorAnswerx: number = ((ratio * vector1x) + vector2x) / (ratio + 1);
         const vectorAnswery: number = ((ratio * vector1y) + vector2y) / (ratio + 1);
 
-        const answer: string = `(${vectorAnswerx}, ${vectorAnswery})`;
+        const answer: string = `(${vectorAnswerx.toPrecision(values.sigFig)}, ${vectorAnswery.toPrecision(values.sigFig)})`;
 
         const { provided }: { provided: string } = await inquirer.prompt({
             type: 'input',
