@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians, composite, inverse, inverseTransform, logFunctions } from "./straightLine.js";
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 import { differentiate } from "./differentiation.js";
-import { additionOfVectors, magnitude, multiplicationVectors, subtractionOfVectors } from "./vectors.js";
+import { additionOfVectors, magnitude, multiplicationVectors, positionVector, subtractionOfVectors } from "./vectors.js";
 function main() {
     inquirer.prompt([
         {
@@ -31,6 +31,7 @@ function main() {
                 'Addition of Vectors',
                 'Subtraction of Vectors',
                 'Multiplication by a Scalar',
+                'Position Vectors',
                 'Exit',
             ]
         }
@@ -138,6 +139,11 @@ function main() {
                 break;
             case 'Multiplication by a Scalar':
                 multiplicationVectors().then(function () {
+                    main();
+                });
+                break;
+            case 'Position Vectors':
+                positionVector().then(function () {
                     main();
                 });
                 break;

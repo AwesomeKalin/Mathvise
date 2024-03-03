@@ -184,3 +184,45 @@ export async function multiplicationVectors() {
         }
     }
 }
+
+export async function positionVector() {
+    const values: { min: number, max: number, decimal: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        }
+    ]);
+
+    for (var i = 0; i < 10; i++) {
+        const vector1x: number = randNum(values.min, values.max, values.decimal);
+        const vector1y: number = randNum(values.min, values.max, values.decimal);
+
+        const vector2x: number = randNum(values.min, values.max, values.decimal);
+        const vector2y: number = randNum(values.min, values.max, values.decimal);
+
+        const answer: string = `(${vector2x - vector1x}, ${vector2y - vector1y})`;
+
+        const { provided }: { provided: string } = await inquirer.prompt({
+            type: 'input',
+            name: 'provided',
+            message: `If A is (${vector1x}, ${vector1y}) and B is (${vector2x}, ${vector2y}), then what is AB's position vector?`,
+        });
+
+        if (provided === answer) {
+            console.log('Correct');
+        } else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}
