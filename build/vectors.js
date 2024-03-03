@@ -198,3 +198,44 @@ export async function positionVector() {
         }
     }
 }
+export async function unitVectors() {
+    const values = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+    for (var i = 0; i < 10; i++) {
+        const vectorx = randNum(values.min, values.max, values.decimal);
+        const vectory = randNum(values.min, values.max, values.decimal);
+        const magnitude = Math.sqrt(Math.pow(vectorx, 2) + Math.pow(vectory, 2));
+        const answer = `(${(vectorx / magnitude).toPrecision(values.sigFig)}, ${(vectory / magnitude).toPrecision(values.sigFig)})`;
+        const { provided } = await inquirer.prompt({
+            type: 'input',
+            name: 'provided',
+            message: `What is the unit vector of (${vectorx}, ${vectory})`,
+        });
+        if (provided === answer) {
+            console.log('Correct');
+        }
+        else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}
