@@ -239,3 +239,48 @@ export async function unitVectors() {
         }
     }
 }
+export async function sectionFormula() {
+    const values = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+    for (var i = 0; i < 10; i++) {
+        const vector1x = randNum(values.min, values.max, values.decimal);
+        const vector1y = randNum(values.min, values.max, values.decimal);
+        const vector2x = randNum(values.min, values.max, values.decimal);
+        const vector2y = randNum(values.min, values.max, values.decimal);
+        const ratio = randNum(values.min, values.max, values.decimal);
+        const vectorAnswerx = ((ratio * vector1x) + vector2x) / (ratio + 1);
+        const vectorAnswery = ((ratio * vector1y) + vector2y) / (ratio + 1);
+        const answer = `(${vectorAnswerx}, ${vectorAnswery})`;
+        const { provided } = await inquirer.prompt({
+            type: 'input',
+            name: 'provided',
+            message: `If A i (${vector1x}, ${vector1y}) and B is (${vector2x}, ${vector2y}), what is the point P which divides the line AB in the ratio 1:${ratio}`,
+        });
+        if (provided === answer) {
+            console.log('Correct');
+        }
+        else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}

@@ -252,17 +252,69 @@ export async function unitVectors() {
     ]);
 
     for (var i = 0; i < 10; i++) {
-          const vectorx: number = randNum(values.min, values.max, values.decimal);
-          const vectory: number = randNum(values.min, values.max, values.decimal);
+        const vectorx: number = randNum(values.min, values.max, values.decimal);
+        const vectory: number = randNum(values.min, values.max, values.decimal);
 
-          const magnitude: number = Math.sqrt(Math.pow(vectorx, 2) + Math.pow(vectory, 2));
+        const magnitude: number = Math.sqrt(Math.pow(vectorx, 2) + Math.pow(vectory, 2));
 
-          const answer: string = `(${(vectorx / magnitude).toPrecision(values.sigFig)}, ${(vectory / magnitude).toPrecision(values.sigFig)})`;
+        const answer: string = `(${(vectorx / magnitude).toPrecision(values.sigFig)}, ${(vectory / magnitude).toPrecision(values.sigFig)})`;
 
-          const { provided }: { provided: string } = await inquirer.prompt({
+        const { provided }: { provided: string } = await inquirer.prompt({
             type: 'input',
             name: 'provided',
             message: `What is the unit vector of (${vectorx}, ${vectory})`,
+        });
+
+        if (provided === answer) {
+            console.log('Correct');
+        } else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}
+
+export async function  sectionFormula() {
+    const values: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+
+    for (var i = 0; i < 10; i++) {
+        const vector1x: number = randNum(values.min, values.max, values.decimal);
+        const vector1y: number = randNum(values.min, values.max, values.decimal);
+
+        const vector2x: number = randNum(values.min, values.max, values.decimal);
+        const vector2y: number = randNum(values.min, values.max, values.decimal);
+
+        const ratio: number = randNum(values.min, values.max, values.decimal);
+
+        const vectorAnswerx: number = ((ratio * vector1x) + vector2x) / (ratio + 1);
+        const vectorAnswery: number = ((ratio * vector1y) + vector2y) / (ratio + 1);
+
+        const answer: string = `(${vectorAnswerx}, ${vectorAnswery})`;
+
+        const { provided }: { provided: string } = await inquirer.prompt({
+            type: 'input',
+            name: 'provided',
+            message: `If A i (${vector1x}, ${vector1y}) and B is (${vector2x}, ${vector2y}), what is the point P which divides the line AB in the ratio 1:${ratio}`,
         });
 
         if (provided === answer) {
