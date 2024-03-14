@@ -3,6 +3,7 @@ import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 import { differentiate } from "./differentiation.js";
 import { additionOfVectors, magnitude, multiplicationVectors, positionVector, sectionFormula, subtractionOfVectors, unitVectors } from "./vectors.js";
+import { waveFunction } from "./trigonometry.js";
 
 function main() {
     inquirer.prompt([
@@ -35,6 +36,7 @@ function main() {
                 'Position Vectors',
                 'Unit Vectors',
                 'Section Formula',
+                'Wave Function',
                 'Exit',
             ]
         }
@@ -180,6 +182,12 @@ function main() {
 
             case 'Section Formula':
                 sectionFormula().then(function() {
+                    main();
+                });
+                break;
+
+            case 'Wave Function':
+                waveFunction().then(function() {
                     main();
                 });
                 break;

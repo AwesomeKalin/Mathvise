@@ -274,7 +274,7 @@ export async function sectionFormula() {
         const { provided } = await inquirer.prompt({
             type: 'input',
             name: 'provided',
-            message: `If A i (${vector1x}, ${vector1y}) and B is (${vector2x}, ${vector2y}), what is the point P which divides the line AB in the ratio 1:${ratio}`,
+            message: `If A is (${vector1x}, ${vector1y}) and B is (${vector2x}, ${vector2y}), what is the point P which divides the line AB in the ratio 1:${ratio}`,
         });
         if (provided === answer) {
             console.log('Correct');
