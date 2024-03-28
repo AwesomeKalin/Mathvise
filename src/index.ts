@@ -4,6 +4,7 @@ import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 import { differentiate } from "./differentiation.js";
 import { additionOfVectors, magnitude, multiplicationVectors, positionVector, sectionFormula, subtractionOfVectors, unitVectors } from "./vectors.js";
 import { waveFunction } from "./trigonometry.js";
+import { experimentalData, naturalLog } from "./logs.js";
 
 function main() {
     inquirer.prompt([
@@ -37,6 +38,8 @@ function main() {
                 'Unit Vectors',
                 'Section Formula',
                 'Wave Function',
+                'Natural Log',
+                'Experimental Data',
                 'Exit',
             ]
         }
@@ -188,6 +191,18 @@ function main() {
 
             case 'Wave Function':
                 waveFunction().then(function() {
+                    main();
+                });
+                break;
+
+            case 'Natural Log':
+                naturalLog().then(function() {
+                    main();
+                });
+                break;
+
+            case 'Experimental Data':
+                experimentalData().then(function() {
                     main();
                 });
                 break;
