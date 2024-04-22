@@ -1,10 +1,11 @@
 import inquirer from "inquirer";
 import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians, composite, inverse, inverseTransform, logFunctions } from "./straightLine.js";
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
-import { differentiate } from "./differentiation.js";
+import { definiteIntegrals, differentiate } from "./differentiation.js";
 import { additionOfVectors, magnitude, multiplicationVectors, positionVector, sectionFormula, subtractionOfVectors, unitVectors } from "./vectors.js";
 import { waveFunction } from "./trigonometry.js";
 import { experimentalData, naturalLog } from "./logs.js";
+import { optimisation } from "./optimisation.js";
 function main() {
     inquirer.prompt([
         {
@@ -39,6 +40,8 @@ function main() {
                 'Wave Function',
                 'Natural Log',
                 'Experimental Data',
+                'Definite Integrals',
+                'Optimisation',
                 'Exit',
             ]
         }
@@ -176,6 +179,16 @@ function main() {
                 break;
             case 'Experimental Data':
                 experimentalData().then(function () {
+                    main();
+                });
+                break;
+            case 'Definite Integrals':
+                definiteIntegrals().then(function () {
+                    main();
+                });
+                break;
+            case 'Optimisation':
+                optimisation().then(function () {
                     main();
                 });
                 break;

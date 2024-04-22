@@ -425,6 +425,7 @@ export async function perpBisector() {
     const sigFigures: number = answers.sigFig;
 
     for (var i = 0; i < 10; i++) {
+        let broken: boolean = false;
         const xa: number = randNum(minVal, maxVal, decimal);
         const ya: number = randNum(minVal, maxVal, decimal);
 
@@ -438,30 +439,32 @@ export async function perpBisector() {
 
         if (gradient === Infinity) {
             i--;
-            break;
+            broken = true;
         }
 
         const perpGrad: number = (-1) / gradient;
 
         if (perpGrad === Infinity) {
             i--;
-            break;
+            broken = true;
         }
 
-        const answer: string = yminusb(xm, ym, perpGrad, sigFigures);
+        if (!broken) {
+            const answer: string = yminusb(xm, ym, perpGrad, sigFigures);
 
-        const providedAnswer: { answer: string } = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'answer',
-                message: `A is (${xa}, ${ya}) and B(${xb}, ${yb}). Find the equation of the perpendicular bisector to AB in the form "y = mx + c"`,
+            const providedAnswer: { answer: string } = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'answer',
+                    message: `A is (${xa}, ${ya}) and B(${xb}, ${yb}). Find the equation of the perpendicular bisector to AB in the form "y = mx + c"`,
+                }
+            ]);
+
+            if (providedAnswer.answer == answer) {
+                console.log('Correct!');
+            } else {
+                console.log(`Incorrect! The answer is ${answer}`);
             }
-        ]);
-
-        if (providedAnswer.answer == answer) {
-            console.log('Correct!');
-        } else {
-            console.log(`Incorrect! The answer is ${answer}`);
         }
     }
 }
@@ -826,7 +829,7 @@ export async function inverseTransform() {
 
         console.log(question);
 
-        const answers: {coord1: string, coord2: string} = await inquirer.prompt([
+        const answers: { coord1: string, coord2: string } = await inquirer.prompt([
             {
                 type: 'input',
                 message: 'Co-ord 1',
@@ -890,7 +893,7 @@ export async function logFunctions() {
         }
 
         const aAnswer: number = xb - shift;
-        
+
         const answer: string = `y = log${aAnswer}(x ${shiftOperation} ${shiftDisplay})`;
 
         const provAnswer: { answer: string } = await inquirer.prompt([

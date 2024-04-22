@@ -378,6 +378,7 @@ export async function perpBisector() {
     const decimal = answers.decimal;
     const sigFigures = answers.sigFig;
     for (var i = 0; i < 10; i++) {
+        let broken = false;
         const xa = randNum(minVal, maxVal, decimal);
         const ya = randNum(minVal, maxVal, decimal);
         const xb = randNum(minVal, maxVal, decimal);
@@ -387,26 +388,28 @@ export async function perpBisector() {
         const gradient = (yb - ya) / (xb - xa);
         if (gradient === Infinity) {
             i--;
-            break;
+            broken = true;
         }
         const perpGrad = (-1) / gradient;
         if (perpGrad === Infinity) {
             i--;
-            break;
+            broken = true;
         }
-        const answer = yminusb(xm, ym, perpGrad, sigFigures);
-        const providedAnswer = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'answer',
-                message: `A is (${xa}, ${ya}) and B(${xb}, ${yb}). Find the equation of the perpendicular bisector to AB in the form "y = mx + c"`,
+        if (!broken) {
+            const answer = yminusb(xm, ym, perpGrad, sigFigures);
+            const providedAnswer = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'answer',
+                    message: `A is (${xa}, ${ya}) and B(${xb}, ${yb}). Find the equation of the perpendicular bisector to AB in the form "y = mx + c"`,
+                }
+            ]);
+            if (providedAnswer.answer == answer) {
+                console.log('Correct!');
             }
-        ]);
-        if (providedAnswer.answer == answer) {
-            console.log('Correct!');
-        }
-        else {
-            console.log(`Incorrect! The answer is ${answer}`);
+            else {
+                console.log(`Incorrect! The answer is ${answer}`);
+            }
         }
     }
 }
