@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "run": "node ./build/index.js"
+    "run": "bun run ./build/index.js"
   },
   "type": "module",
   "keywords": [],
@@ -13,14 +13,14 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.3.0",
-    "inquirer": "^9.2.19",
+    "inquirer": "^9.2.20",
     "table": "^6.8.2",
     "terminal-image": "^2.0.0",
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.10",
     "typescript": "^5.4.5"
   }
 }

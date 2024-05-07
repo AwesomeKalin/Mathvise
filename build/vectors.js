@@ -284,3 +284,45 @@ export async function sectionFormula() {
         }
     }
 }
+export async function dotProduct() {
+    const values = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+    for (var i = 0; i < 10; i++) {
+        const maga = randNum(values.min, values.max, values.decimal);
+        const magb = randNum(values.min, values.max, values.decimal);
+        const angle = randNum(1, 180, values.decimal);
+        const angleCos = Math.cos((angle * Math.PI) / 180);
+        const answer = +(maga * magb * angleCos).toPrecision(values.sigFig);
+        const { ans } = await inquirer.prompt({
+            type: 'number',
+            name: 'ans',
+            message: `Find the scalar product for the vectors a and b when |a| = ${maga} units, |b| = ${magb} units and θ = ${angle}°`,
+        });
+        if (ans === answer) {
+            console.log('Correct');
+        }
+        else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}

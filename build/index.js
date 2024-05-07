@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula, gradientFormula, midpointFormula, perpendicularLines, perpBisector, altitudes, medians, composite, inverse, inverseTransform, logFunctions } from "./straightLine.js";
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 import { definiteIntegrals, differentiate } from "./differentiation.js";
-import { additionOfVectors, magnitude, multiplicationVectors, positionVector, sectionFormula, subtractionOfVectors, unitVectors } from "./vectors.js";
+import { additionOfVectors, dotProduct, magnitude, multiplicationVectors, positionVector, sectionFormula, subtractionOfVectors, unitVectors } from "./vectors.js";
 import { waveFunction } from "./trigonometry.js";
 import { experimentalData, naturalLog } from "./logs.js";
 import { optimisation } from "./optimisation.js";
@@ -42,6 +42,7 @@ function main() {
                 'Experimental Data',
                 'Definite Integrals',
                 'Optimisation',
+                'Dot Product',
                 'Exit',
             ]
         }
@@ -189,6 +190,11 @@ function main() {
                 break;
             case 'Optimisation':
                 optimisation().then(function () {
+                    main();
+                });
+                break;
+            case 'Dot Product':
+                dotProduct().then(function () {
                     main();
                 });
                 break;
