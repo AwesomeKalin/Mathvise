@@ -110,3 +110,66 @@ export async function waveFunction() {
         }
     }
 }
+
+export async function discriminant() {
+    const values: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'decimal',
+            message: 'What is the maximum amount of decimal points do you want to appear?',
+        },
+    ]);
+
+    for (var i = 0; i < 10; i++) {
+        const a: number = randNum(values.min, values.max, values.decimal);
+        let b: number = randNum(values.min, values.max, values.decimal);
+        let c: number = randNum(values.min, values.max, values.decimal);
+
+        const bsquared: number = Math.pow(b, 2);
+        const fourac: number = -4 * a * c;
+        const discriminant: number = bsquared + fourac;
+
+        let answer: 0 | 1 | 2;
+        if (discriminant > 0) {
+            answer = 0;
+        } if (discriminant === 0) {
+            answer = 2;
+        } else {
+            answer = 1;
+        }
+
+        let bOperation: '+' | '-' = '+';
+        if (b < 0) {
+            bOperation = '-';
+            b = Math.abs(b);
+        }
+
+        let cOperation: '+' | '-' = '+';
+        if (c < 0) {
+            cOperation = '-';
+            c = Math.abs(c);
+        }
+
+        const { ans }: { ans: number } = await inquirer.prompt({
+            type: 'number',
+            name: 'ans',
+            message: `State the nature of the roots for ${a}x^2 ${bOperation} ${b}x ${cOperation} ${c}. Use 0 for real and distinct roots, 1 for no real roots and 2 for 1 real root`,
+        });
+
+        if (ans === answer) {
+            console.log('Correct');
+        } else {
+            console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}

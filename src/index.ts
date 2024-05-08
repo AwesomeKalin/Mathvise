@@ -3,7 +3,7 @@ import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 import { definiteIntegrals, differentiate } from "./differentiation.js";
 import { additionOfVectors, dotProduct, magnitude, multiplicationVectors, positionVector, sectionFormula, subtractionOfVectors, unitVectors } from "./vectors.js";
-import { waveFunction } from "./trigonometry.js";
+import { discriminant, waveFunction } from "./trigonometry.js";
 import { experimentalData, naturalLog } from "./logs.js";
 import { optimisation } from "./optimisation.js";
 
@@ -44,6 +44,7 @@ function main() {
                 'Definite Integrals',
                 'Optimisation',
                 'Dot Product',
+                'Discriminant',
                 'Exit',
             ]
         }
@@ -225,6 +226,12 @@ function main() {
 
             case 'Dot Product':
                 dotProduct().then(function() {
+                    main();
+                });
+                break;
+
+            case 'Discriminant':
+                discriminant().then(function() {
                     main();
                 });
                 break;
