@@ -3,7 +3,7 @@ import { calcEquStrLine, calcGradientStraightLine, collinearity, distanceFormula
 import { accumulation, accumulationmultiinterest } from "./applicationmaths.js";
 import { definiteIntegrals, differentiate } from "./differentiation.js";
 import { additionOfVectors, dotProduct, magnitude, multiplicationVectors, positionVector, sectionFormula, subtractionOfVectors, unitVectors } from "./vectors.js";
-import { discriminant, waveFunction } from "./trigonometry.js";
+import { discriminant, solvingTrigEqu, waveFunction } from "./trigonometry.js";
 import { experimentalData, naturalLog } from "./logs.js";
 import { optimisation } from "./optimisation.js";
 function main() {
@@ -44,6 +44,7 @@ function main() {
                 'Optimisation',
                 'Dot Product',
                 'Discriminant',
+                'Solving Trig Equations',
                 'Exit',
             ]
         }
@@ -201,6 +202,11 @@ function main() {
                 break;
             case 'Discriminant':
                 discriminant().then(function () {
+                    main();
+                });
+                break;
+            case 'Solving Trig Equations':
+                solvingTrigEqu().then(function () {
                     main();
                 });
                 break;

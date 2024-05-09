@@ -112,7 +112,7 @@ export async function waveFunction() {
 }
 
 export async function discriminant() {
-    const values: { min: number, max: number, decimal: number, sigFig: number } = await inquirer.prompt([
+    const values: { min: number, max: number, decimal: number } = await inquirer.prompt([
         {
             type: 'number',
             name: 'min',
@@ -170,6 +170,108 @@ export async function discriminant() {
             console.log('Correct');
         } else {
             console.log(`Incorrect! The answer is ${answer}`);
+        }
+    }
+}
+
+export async function solvingTrigEqu() {
+    const values: { min: number, max: number, sigFig: number } = await inquirer.prompt([
+        {
+            type: 'number',
+            name: 'min',
+            message: 'What is the minimum number that you want to appear?',
+        },
+        {
+            type: 'number',
+            name: 'max',
+            message: 'What is the maximum number that you want to appear? (Numbers may be higher due to rounding)',
+        },
+        {
+            type: 'number',
+            name: 'sigFig',
+            message: 'To how many significant figures do you want to give answers to?'
+        }
+    ]);
+
+    for (var i = 0; i < 10; i++) {
+        const a: number = randNum(values.min, values.max, 0);
+        const b: number = randNum(values.min, values.max, 0);
+        const c: number = randNum(values.min, values.max, 0);
+        // 0 for sin, 1 for cos, 2 for tan
+        const operation: number = randNum(0, 1, 0);
+
+        const cRearranged: number = 0 - c;
+        let aDivC: number = cRearranged / a;
+        let broken: boolean = false;
+
+        if (aDivC > 1 && aDivC < -1 && operation !== 2) {
+            broken = true;
+            i--;
+        }
+
+        if (!broken) {
+            let positive: boolean = true;
+
+            if (aDivC < 0) {
+                positive = false;
+                aDivC = Math.abs(aDivC);
+            }
+
+            let val: number;
+
+            if (operation === 0) {
+                if (positive) {
+                    val = Math.asin(aDivC) * (180 / Math.PI);
+                    if (180 - val < val) {
+                        val = 180 - val;
+                    }
+                } else {
+                    val = (Math.asin(aDivC) * (180 / Math.PI)) - 180;
+                }
+            } else if (operation === 1) {
+                if (positive) {
+                    val = Math.acos(aDivC) * (180 / Math.PI);
+                    if (360 - val < val) {
+                        val = 360 - val;
+                    }
+                } else {
+                    val = (Math.acos(aDivC) * (180 / Math.PI)) - 180;
+                }
+            } else if (operation === 2) {
+                if (positive) {
+                    val = (Math.atan(aDivC) * (180 / Math.PI)) - 180;
+                } else {
+                    val = 180 - (Math.atan(aDivC) * (180 / Math.PI));
+                }
+            }
+
+            val = +(val / b).toPrecision(values.sigFig);
+
+            let cOperation: '+' | '-' = '+';
+            if (c < 0) {
+                cOperation = '-';
+            }
+
+            let operationString: 'sin' | 'cos' | 'tan';
+            if (operation === 0) {
+                operationString = 'sin';
+            } else if (operation === 1) {
+                operationString = 'cos';
+            } else {
+                operationString = 'tan';
+            }
+
+            const { answer }: { answer: number } = await inquirer.prompt({
+                type: 'number',
+                name: 'answer',
+                message: `Solve ${a}${operationString}${b}° ${cOperation} ${c} = 0 where 0≤x≤360. Only give smallest value.`,
+            });
+
+            if (answer === val) {
+                console.log('Correct!');
+            } else {
+                console.log(`Incorrect! The answer is ${val}`);
+            }
         }
     }
 }
